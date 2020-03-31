@@ -38,8 +38,7 @@ body{
 
 .pulse{
     position: relative;
-    top: 26
-    0px;
+    top: 260px;
     left: -365px;
 
     display: flex;
