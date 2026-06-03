@@ -19,13 +19,8 @@
     const modalDetails = document.getElementById('modal-details');
     const modalClose = document.getElementById('modal-close');
     const formError = document.getElementById('form-error');
-    const mobileCtaLine = document.getElementById('mobile-cta-line');
     const mobileCtaMeta = document.getElementById('mobile-cta-meta');
     const mobileCtaTotal = document.getElementById('mobile-cta-total');
-    const mobileSummarySheet = document.getElementById('mobile-summary-sheet');
-    const mobileSummaryToggle = document.getElementById('mobile-summary-toggle');
-    const mobileSummaryClose = document.getElementById('mobile-summary-close');
-    const mobileSummaryBackdrop = document.getElementById('mobile-summary-backdrop');
 
     let selectedDate = null;
 
@@ -45,22 +40,6 @@
 
     function clearFormError() {
         if (formError) formError.hidden = true;
-    }
-
-    function openMobileSummary() {
-        if (!mobileSummarySheet) return;
-        mobileSummarySheet.classList.add('is-open');
-        mobileSummarySheet.setAttribute('aria-hidden', 'false');
-        if (mobileSummaryToggle) mobileSummaryToggle.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeMobileSummary() {
-        if (!mobileSummarySheet) return;
-        mobileSummarySheet.classList.remove('is-open');
-        mobileSummarySheet.setAttribute('aria-hidden', 'true');
-        if (mobileSummaryToggle) mobileSummaryToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
     }
 
     function scrollDateChipIntoView(input) {
@@ -214,21 +193,12 @@
         setText('summary-date', dateLabel);
         setText('summary-time', timeLabel);
 
-        setText('mobile-summary-service', serviceLabel);
-        setText('mobile-summary-barber', barberLabel);
-        setText('mobile-summary-date', dateLabel);
-        setText('mobile-summary-time', timeLabel);
-        setText('mobile-summary-duration', durationLabel);
-        setText('mobile-summary-total', totalLabel);
-
-        if (mobileCtaLine) {
-            mobileCtaLine.textContent = serviceLabel + ' · ' + barberLabel;
-        }
         if (mobileCtaMeta) {
-            mobileCtaMeta.textContent =
+            const when =
                 dateLabel !== '—' && timeLabel !== '—'
                     ? dateLabel + ' às ' + timeLabel
-                    : 'Escolha data e horário';
+                    : 'escolha data e horário';
+            mobileCtaMeta.textContent = serviceLabel + ' · ' + when;
         }
         if (mobileCtaTotal) {
             mobileCtaTotal.textContent = totalLabel;
@@ -309,8 +279,6 @@
             return;
         }
 
-        closeMobileSummary();
-
         openModal({
             service: SERVICE_LABELS[service.value],
             barber: barber.value,
@@ -332,18 +300,6 @@
         }
         updateSummary();
     });
-
-    if (mobileSummaryToggle) {
-        mobileSummaryToggle.addEventListener('click', function () {
-            if (mobileSummarySheet.classList.contains('is-open')) {
-                closeMobileSummary();
-            } else {
-                openMobileSummary();
-            }
-        });
-    }
-    if (mobileSummaryClose) mobileSummaryClose.addEventListener('click', closeMobileSummary);
-    if (mobileSummaryBackdrop) mobileSummaryBackdrop.addEventListener('click', closeMobileSummary);
 
     modalClose.addEventListener('click', closeModal);
     modal.addEventListener('click', function (e) {

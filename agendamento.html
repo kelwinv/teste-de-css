@@ -134,7 +134,7 @@
             </section>
         </form>
 
-        <aside class="summary-panel" aria-label="Resumo do agendamento">
+        <aside class="summary-panel summary-panel--mobile" aria-label="Resumo do agendamento">
             <div class="summary-card">
                 <h3>Resumo do agendamento</h3>
                 <div class="summary-item">
@@ -169,10 +169,12 @@
         </aside>
     </div>
 
-    <footer class="site-footer">
-        <p>Barbearia Clássica — Rua das Palmeiras, 120 · Centro</p>
-        <p>Seg–Sex 9h–20h · Sáb 9h–18h · Dom fechado</p>
-    </footer>
+    <div class="page-end">
+        <footer class="site-footer">
+            <p>Barbearia Clássica — Rua das Palmeiras, 120 · Centro</p>
+            <p>Seg–Sex 9h–20h · Sáb 9h–18h · Dom fechado</p>
+        </footer>
+    </div>
 
     <div class="modal-overlay" id="success-modal" aria-hidden="true">
         <div class="modal" role="dialog" aria-labelledby="modal-title">
@@ -184,32 +186,16 @@
         </div>
     </div>
 
-    <script src="agendamento.js"></script>
-    <div class="mobile-cta" id="mobile-cta">
-        <button type="button" class="mobile-cta-toggle" id="mobile-summary-toggle" aria-expanded="false" aria-controls="mobile-summary-sheet">
-            <span class="mobile-cta-line" id="mobile-cta-line">Corte · João Silva</span>
-            <span class="mobile-cta-meta" id="mobile-cta-meta">Escolha data e horário</span>
+    <div class="mobile-cta" id="mobile-cta" aria-label="Confirmar agendamento">
+        <div class="mobile-cta-info">
             <span class="mobile-cta-total" id="mobile-cta-total">R$ 45</span>
-        </button>
+            <span class="mobile-cta-meta" id="mobile-cta-meta">Corte · escolha data e horário</span>
+        </div>
         <button type="submit" form="booking-form" class="btn-submit btn-submit-mobile" id="btn-submit-mobile">
             Confirmar
         </button>
     </div>
 
-    <div class="mobile-summary-sheet" id="mobile-summary-sheet" aria-hidden="true">
-        <div class="mobile-summary-backdrop" id="mobile-summary-backdrop"></div>
-        <div class="mobile-summary-panel" role="dialog" aria-label="Resumo do agendamento">
-            <div class="mobile-summary-handle" aria-hidden="true"></div>
-            <h3>Resumo</h3>
-            <div class="summary-item"><span class="label">Serviço</span><span class="value" id="mobile-summary-service">Corte</span></div>
-            <div class="summary-item"><span class="label">Profissional</span><span class="value" id="mobile-summary-barber">João Silva</span></div>
-            <div class="summary-item"><span class="label">Data</span><span class="value" id="mobile-summary-date">—</span></div>
-            <div class="summary-item"><span class="label">Horário</span><span class="value" id="mobile-summary-time">—</span></div>
-            <div class="summary-item"><span class="label">Duração</span><span class="value" id="mobile-summary-duration">30 min</span></div>
-            <div class="summary-total"><span>Total</span><span class="amount" id="mobile-summary-total">R$ 45</span></div>
-            <button type="button" class="btn-close" id="mobile-summary-close">Continuar</button>
-        </div>
-    </div>
-
+    <script src="agendamento.js"></script>
 </body>
 </html>
