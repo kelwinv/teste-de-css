@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar horário — Barbearia Clássica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="agendamento.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <span class="brand-name">Barbearia Clássica</span>
+            <span class="brand-tagline">Desde 1987</span>
+        </div>
+        <a class="nav-back" href="index.html">← Voltar ao início</a>
+    </header>
+
+    <section class="hero">
+        <h1>Agende seu horário</h1>
+        <p>Escolha o serviço, o profissional e o melhor horário para você. Confirmação imediata.</p>
+    </section>
+
+    <div class="booking-layout">
+        <form class="booking-form" id="booking-form" novalidate>
+            <section class="form-section">
+                <h2><span class="step-num">1</span> Serviço</h2>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <input type="radio" name="service" id="svc-corte" value="corte" data-price="45" data-duration="30" checked>
+                        <label for="svc-corte">
+                            <span class="service-icon">✂️</span>
+                            <span class="service-name">Corte</span>
+                            <span class="service-price">R$ 45</span>
+                            <span class="service-duration">30 min</span>
+                        </label>
+                    </div>
+                    <div class="service-card">
+                        <input type="radio" name="service" id="svc-barba" value="barba" data-price="35" data-duration="25">
+                        <label for="svc-barba">
+                            <span class="service-icon">🪒</span>
+                            <span class="service-name">Barba</span>
+                            <span class="service-price">R$ 35</span>
+                            <span class="service-duration">25 min</span>
+                        </label>
+                    </div>
+                    <div class="service-card">
+                        <input type="radio" name="service" id="svc-combo" value="combo" data-price="70" data-duration="50">
+                        <label for="svc-combo">
+                            <span class="service-icon">⭐</span>
+                            <span class="service-name">Corte + Barba</span>
+                            <span class="service-price">R$ 70</span>
+                            <span class="service-duration">50 min</span>
+                        </label>
+                    </div>
+                    <div class="service-card">
+                        <input type="radio" name="service" id="svc-infantil" value="infantil" data-price="35" data-duration="25">
+                        <label for="svc-infantil">
+                            <span class="service-icon">👦</span>
+                            <span class="service-name">Infantil</span>
+                            <span class="service-price">R$ 35</span>
+                            <span class="service-duration">25 min</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2><span class="step-num">2</span> Profissional</h2>
+                <div class="barber-grid">
+                    <div class="barber-card">
+                        <input type="radio" name="barber" id="barber-joao" value="João Silva" checked>
+                        <label for="barber-joao">
+                            <span class="barber-avatar">JS</span>
+                            <span class="barber-name">João Silva</span>
+                            <span class="barber-role">Barbeiro sênior</span>
+                        </label>
+                    </div>
+                    <div class="barber-card">
+                        <input type="radio" name="barber" id="barber-marcus" value="Marcus Oliveira">
+                        <label for="barber-marcus">
+                            <span class="barber-avatar">MO</span>
+                            <span class="barber-name">Marcus Oliveira</span>
+                            <span class="barber-role">Especialista em barba</span>
+                        </label>
+                    </div>
+                    <div class="barber-card">
+                        <input type="radio" name="barber" id="barber-rafa" value="Rafael Costa">
+                        <label for="barber-rafa">
+                            <span class="barber-avatar">RC</span>
+                            <span class="barber-name">Rafael Costa</span>
+                            <span class="barber-role">Cortes modernos</span>
+                        </label>
+                    </div>
+                    <div class="barber-card">
+                        <input type="radio" name="barber" id="barber-any" value="Qualquer disponível">
+                        <label for="barber-any">
+                            <span class="barber-avatar">?</span>
+                            <span class="barber-name">Sem preferência</span>
+                            <span class="barber-role">Primeiro horário livre</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2><span class="step-num">3</span> Data e horário</h2>
+                <div class="date-row" id="date-options" role="radiogroup" aria-label="Selecione a data"></div>
+                <div class="time-grid" id="time-slots" role="radiogroup" aria-label="Selecione o horário"></div>
+            </section>
+
+            <section class="form-section">
+                <h2><span class="step-num">4</span> Seus dados</h2>
+                <div class="field-row">
+                    <div class="field-group">
+                        <label for="client-name">Nome completo</label>
+                        <input type="text" id="client-name" name="name" placeholder="Seu nome" required autocomplete="name">
+                    </div>
+                    <div class="field-group">
+                        <label for="client-phone">WhatsApp / telefone</label>
+                        <input type="tel" id="client-phone" name="phone" placeholder="(11) 99999-9999" required autocomplete="tel">
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label for="client-notes">Observações (opcional)</label>
+                    <textarea id="client-notes" name="notes" placeholder="Ex.: degradê baixo, alergia a produtos..."></textarea>
+                </div>
+            </section>
+        </form>
+
+        <aside class="summary-panel">
+            <div class="summary-card">
+                <h3>Resumo do agendamento</h3>
+                <div class="summary-item">
+                    <span class="label">Serviço</span>
+                    <span class="value" id="summary-service">Corte</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Profissional</span>
+                    <span class="value" id="summary-barber">João Silva</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Data</span>
+                    <span class="value" id="summary-date">—</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Horário</span>
+                    <span class="value" id="summary-time">—</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Duração</span>
+                    <span class="value" id="summary-duration">30 min</span>
+                </div>
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span class="amount" id="summary-total">R$ 45</span>
+                </div>
+                <button type="submit" form="booking-form" class="btn-submit" id="btn-submit">
+                    Confirmar agendamento
+                </button>
+                <p class="summary-hint">Você receberá confirmação por WhatsApp</p>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+        <p>Barbearia Clássica — Rua das Palmeiras, 120 · Centro</p>
+        <p>Seg–Sex 9h–20h · Sáb 9h–18h · Dom fechado</p>
+    </footer>
+
+    <div class="modal-overlay" id="success-modal" aria-hidden="true">
+        <div class="modal" role="dialog" aria-labelledby="modal-title">
+            <div class="modal-icon">✓</div>
+            <h2 id="modal-title">Agendamento confirmado!</h2>
+            <p>Seu horário foi reservado com sucesso. Até lá!</p>
+            <div class="modal-details" id="modal-details"></div>
+            <button type="button" class="btn-close" id="modal-close">Fechar</button>
+        </div>
+    </div>
+
+    <script src="agendamento.js"></script>
+</body>
+</html>
