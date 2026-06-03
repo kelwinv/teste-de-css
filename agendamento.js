@@ -5,6 +5,8 @@
     const AFTERNOON_SLOTS = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
     const ALL_SLOTS = [...MORNING_SLOTS, ...AFTERNOON_SLOTS];
 
+    const WHATSAPP_NUMBER = '5511989581779';
+
     const SERVICE_LABELS = {
         corte: 'Corte',
         barba: 'Barba',
@@ -55,6 +57,32 @@
 
     function formatCurrency(value) {
         return 'R$ ' + value.toFixed(0).replace('.', ',');
+    }
+
+    function buildWhatsAppMessage(data) {
+        var lines = [
+            'Olá! Gostaria de agendar um horário na *Barbearia Clássica*:',
+            '',
+            '*Nome:* ' + data.name,
+            '*Telefone:* ' + data.phone,
+            '*Serviço:* ' + data.service,
+            '*Profissional:* ' + data.barber,
+            '*Data:* ' + data.date,
+            '*Horário:* ' + data.time,
+        ];
+        if (data.notes) {
+            lines.push('*Observações:* ' + data.notes);
+        }
+        lines.push('', 'Aguardo a confirmação. Obrigado!');
+        return lines.join('\n');
+    }
+
+    function getWhatsAppUrl(message) {
+        return 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+    }
+
+    function openWhatsApp(message) {
+        window.open(getWhatsAppUrl(message), '_blank', 'noopener,noreferrer');
     }
 
     function getSelectedService() {
@@ -238,7 +266,10 @@
         }
     }
 
-    function openModal(data) {
+    function openModal(data, whatsappUrl) {
+        var notesHtml = data.notes
+            ? '<p><strong>Observações:</strong> ' + data.notes + '</p>'
+            : '';
         modalDetails.innerHTML =
             '<p><strong>Serviço:</strong> ' +
             data.service +
@@ -256,7 +287,11 @@
             '</p>' +
             '<p><strong>Telefone:</strong> ' +
             data.phone +
-            '</p>';
+            '</p>' +
+            notesHtml +
+            '<p class="modal-whatsapp-link"><a href="' +
+            whatsappUrl +
+            '" target="_blank" rel="noopener noreferrer">Abrir WhatsApp novamente</a></p>';
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
     }
@@ -293,6 +328,7 @@
 
         const name = document.getElementById('client-name').value.trim();
         const phone = document.getElementById('client-phone').value.trim();
+        const notes = document.getElementById('client-notes').value.trim();
         const service = getSelectedService();
         const barber = getSelectedBarber();
         const dateInput = getSelectedDateInput();
@@ -314,14 +350,20 @@
 
         closeMobileDetails();
 
-        openModal({
+        const bookingData = {
             service: SERVICE_LABELS[service.value],
             barber: barber.value,
             date: dateInput.dataset.label,
             time: timeInput.value,
             name: name,
             phone: phone,
-        });
+            notes: notes,
+        };
+        const whatsappMessage = buildWhatsAppMessage(bookingData);
+        const whatsappUrl = getWhatsAppUrl(whatsappMessage);
+
+        openWhatsApp(whatsappMessage);
+        openModal(bookingData, whatsappUrl);
 
         form.reset();
         const firstService = form.querySelector('input[name="service"]');
