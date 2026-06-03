@@ -21,6 +21,9 @@
     const formError = document.getElementById('form-error');
     const mobileCtaMeta = document.getElementById('mobile-cta-meta');
     const mobileCtaTotal = document.getElementById('mobile-cta-total');
+    const summaryPreview = document.getElementById('summary-preview');
+    const btnMobileDetails = document.getElementById('btn-mobile-details');
+    const mobileDetailsPopover = document.getElementById('mobile-details-popover');
 
     let selectedDate = null;
 
@@ -203,6 +206,36 @@
         if (mobileCtaTotal) {
             mobileCtaTotal.textContent = totalLabel;
         }
+
+        if (summaryPreview && serviceLabel !== '—') {
+            summaryPreview.textContent = serviceLabel + ' · ' + totalLabel;
+        }
+
+        setText('popover-service', serviceLabel);
+        setText('popover-barber', barberLabel);
+        setText('popover-date', dateLabel);
+        setText('popover-time', timeLabel);
+        setText('popover-duration', durationLabel);
+        setText('popover-total', totalLabel);
+    }
+
+    function closeMobileDetails() {
+        if (!mobileDetailsPopover || !btnMobileDetails) return;
+        mobileDetailsPopover.classList.remove('is-visible');
+        mobileDetailsPopover.hidden = true;
+        btnMobileDetails.setAttribute('aria-expanded', 'false');
+    }
+
+    function toggleMobileDetails() {
+        if (!mobileDetailsPopover || !btnMobileDetails) return;
+        const open = mobileDetailsPopover.classList.contains('is-visible');
+        if (open) {
+            closeMobileDetails();
+        } else {
+            mobileDetailsPopover.hidden = false;
+            mobileDetailsPopover.classList.add('is-visible');
+            btnMobileDetails.setAttribute('aria-expanded', 'true');
+        }
     }
 
     function openModal(data) {
@@ -279,6 +312,8 @@
             return;
         }
 
+        closeMobileDetails();
+
         openModal({
             service: SERVICE_LABELS[service.value],
             barber: barber.value,
@@ -299,6 +334,24 @@
             renderTimeSlots();
         }
         updateSummary();
+    });
+
+    if (btnMobileDetails) {
+        btnMobileDetails.addEventListener('click', function (e) {
+            e.stopPropagation();
+            toggleMobileDetails();
+        });
+    }
+
+    document.addEventListener('click', function (e) {
+        if (!mobileDetailsPopover || !btnMobileDetails) return;
+        if (
+            mobileDetailsPopover.classList.contains('is-visible') &&
+            !mobileDetailsPopover.contains(e.target) &&
+            !btnMobileDetails.contains(e.target)
+        ) {
+            closeMobileDetails();
+        }
     });
 
     modalClose.addEventListener('click', closeModal);

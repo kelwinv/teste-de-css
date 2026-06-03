@@ -626,6 +626,121 @@ a:hover {
 }
 
 
+
+/* Collapsible summary (mobile-first; expanded on desktop) */
+.summary-compact {
+    border: none;
+    margin: 0;
+}
+
+.summary-compact__trigger {
+    display: none;
+    list-style: none;
+    cursor: pointer;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    min-height: 48px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: inherit;
+    color: var(--text);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.summary-compact__trigger::-webkit-details-marker {
+    display: none;
+}
+
+.summary-compact__trigger::after {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    transform: rotate(45deg);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.summary-compact[open] .summary-compact__trigger::after {
+    transform: rotate(-135deg);
+    margin-top: 0.25rem;
+}
+
+.summary-compact__label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.summary-compact__preview {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+    flex: 1;
+    min-width: 0;
+}
+
+.summary-card__title {
+    display: block;
+}
+
+
+
+    .summary-compact > .summary-card {
+        display: block;
+    }
+
+    .summary-card__title {
+        display: none;
+    }
+
+    .summary-compact > .summary-card > .summary-card__title {
+        display: none;
+    }
+
+    .summary-panel .summary-card h3,
+    .summary-card__title {
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .summary-panel .summary-card::before {
+        content: "Resumo do agendamento";
+        display: block;
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .summary-card__title {
+        display: none !important;
+    }
+}
+
+/* Mobile details popover */
+.mobile-details-popover {
+    display: none;
+}
+
+.btn-mobile-details {
+    display: none;
+}
+
 /* --- Mobile usability --- */
 .scroll-hint,
 .field-label-time {
@@ -667,7 +782,7 @@ a:hover {
     }
 
     body {
-        padding-bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
     }
 
     .site-header {
@@ -846,22 +961,126 @@ a:hover {
         gap: 0;
     }
 
-    /* Resumo inline no fluxo da página */
+    /* Resumo compacto: 1 linha fechado, detalhes sob demanda */
     .summary-panel {
         position: static;
-        order: 0;
-    }
-
-    .summary-panel .summary-card {
+        order: 2;
         margin-top: 0.25rem;
     }
 
-    .summary-panel .btn-submit {
+    .summary-compact__trigger {
+        display: flex;
+    }
+
+    .summary-compact > .summary-card {
+        margin-top: 0.5rem;
+        max-height: min(38vh, 280px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 1rem;
+    }
+
+    .summary-compact:not([open]) > .summary-card {
         display: none;
     }
 
+    .summary-card__title {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0;
+        border: none;
+    }
+
+    .summary-compact .summary-item {
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .summary-compact .summary-total {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        font-size: 1rem;
+    }
+
+    .summary-compact .summary-total .amount {
+        font-size: 1.15rem;
+    }
+
+    .summary-panel .btn-submit,
     .summary-hint {
-        margin-bottom: 0;
+        display: none;
+    }
+
+    .btn-mobile-details {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--surface-elevated);
+        color: var(--text-muted);
+        font-family: inherit;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        flex-shrink: 0;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-mobile-details[aria-expanded="true"] {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    .mobile-details-popover {
+        display: block;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px));
+        z-index: 140;
+        padding: 0 0.75rem;
+        pointer-events: none;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.2s, visibility 0.2s;
+    }
+
+    .mobile-details-popover.is-visible {
+        pointer-events: auto;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .mobile-details-popover[hidden] {
+        display: block;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    .mobile-details-popover__panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1rem;
+        max-height: min(32vh, 240px);
+        overflow-y: auto;
+        box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .mobile-details-popover .summary-item {
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .mobile-details-popover .summary-total {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
     }
 
     .page-end {
@@ -876,7 +1095,7 @@ a:hover {
     .site-footer {
         margin-top: 0;
         padding: 1.5rem 1rem;
-        padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
         font-size: 0.8rem;
         line-height: 1.6;
         background: var(--surface);
@@ -913,9 +1132,9 @@ a:hover {
     /* Fixed bottom CTA */
     .mobile-cta {
         display: grid;
-        grid-template-columns: 1fr auto;
-        align-items: stretch;
-        gap: 0.625rem;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 0.5rem;
         position: fixed;
         left: 0;
         right: 0;
@@ -968,5 +1187,40 @@ a:hover {
         min-width: 6.5rem;
         font-size: 0.9rem;
         padding: 0 0.875rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .summary-compact__trigger {
+        display: none !important;
+    }
+
+    .summary-compact > .summary-card {
+        display: block !important;
+        max-height: none;
+        overflow: visible;
+        padding: 1.5rem;
+    }
+
+    .summary-card__title,
+    .summary-desktop-title {
+        display: none;
+    }
+
+    .summary-panel .summary-card::before {
+        content: none;
+    }
+
+    .summary-desktop-title {
+        display: block !important;
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .summary-card__title {
+        display: none !important;
     }
 }

@@ -134,9 +134,15 @@
             </section>
         </form>
 
-        <aside class="summary-panel summary-panel--mobile" aria-label="Resumo do agendamento">
-            <div class="summary-card">
-                <h3>Resumo do agendamento</h3>
+        <aside class="summary-panel" aria-label="Resumo do agendamento">
+            <details class="summary-compact" id="summary-compact">
+                <summary class="summary-compact__trigger">
+                    <span class="summary-compact__label">Resumo</span>
+                    <span class="summary-compact__preview" id="summary-preview">Corte · R$ 45</span>
+                </summary>
+                <div class="summary-card">
+                <h3 class="summary-desktop-title">Resumo do agendamento</h3>
+                <p class="summary-card__title">Detalhes</p>
                 <div class="summary-item">
                     <span class="label">Serviço</span>
                     <span class="value" id="summary-service">Corte</span>
@@ -165,7 +171,8 @@
                     Confirmar agendamento
                 </button>
                 <p class="summary-hint">Você receberá confirmação por WhatsApp</p>
-            </div>
+                </div>
+            </details>
         </aside>
     </div>
 
@@ -186,7 +193,10 @@
         </div>
     </div>
 
-    <div class="mobile-cta" id="mobile-cta" aria-label="Confirmar agendamento">
+    <div class="mobile-cta" id="mobile-cta">
+        <button type="button" class="btn-mobile-details" id="btn-mobile-details" aria-expanded="false" aria-controls="mobile-details-popover">
+            Detalhes
+        </button>
         <div class="mobile-cta-info">
             <span class="mobile-cta-total" id="mobile-cta-total">R$ 45</span>
             <span class="mobile-cta-meta" id="mobile-cta-meta">Corte · escolha data e horário</span>
@@ -194,6 +204,17 @@
         <button type="submit" form="booking-form" class="btn-submit btn-submit-mobile" id="btn-submit-mobile">
             Confirmar
         </button>
+    </div>
+
+    <div class="mobile-details-popover" id="mobile-details-popover" hidden>
+        <div class="mobile-details-popover__panel" role="region" aria-label="Detalhes do agendamento">
+            <div class="summary-item"><span class="label">Serviço</span><span class="value" id="popover-service">Corte</span></div>
+            <div class="summary-item"><span class="label">Profissional</span><span class="value" id="popover-barber">João Silva</span></div>
+            <div class="summary-item"><span class="label">Data</span><span class="value" id="popover-date">—</span></div>
+            <div class="summary-item"><span class="label">Horário</span><span class="value" id="popover-time">—</span></div>
+            <div class="summary-item"><span class="label">Duração</span><span class="value" id="popover-duration">30 min</span></div>
+            <div class="summary-total"><span>Total</span><span class="amount" id="popover-total">R$ 45</span></div>
+        </div>
     </div>
 
     <script src="agendamento.js"></script>
