@@ -81,3 +81,36 @@ body{
         box-shadow: 0 0 0 50px rgba(201, 162, 39, 0);
     }
 }
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        padding: 1rem;
+        min-height: 100vh;
+        height: auto;
+    }
+
+    .logo {
+        width: min(90vw, 320px);
+        height: min(90vw, 320px);
+        transform: rotate(-30deg) skew(25deg) scale(0.55);
+    }
+
+    .pulse {
+        position: static;
+        top: auto;
+        left: auto;
+        width: min(88vw, 280px);
+        height: 52px;
+        min-height: 48px;
+        border-radius: 26px;
+        margin-top: 1.25rem;
+        animation: none;
+        box-shadow: 0 4px 20px rgba(69, 39, 160, 0.4);
+    }
+
+    .pulse-agendamento {
+        background: rgba(201, 162, 39, 1);
+        box-shadow: 0 4px 20px rgba(201, 162, 39, 0.35);
+    }
+}

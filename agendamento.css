@@ -124,10 +124,6 @@ a:hover {
     .booking-layout {
         grid-template-columns: 1fr;
     }
-
-    .summary-panel {
-        order: -1;
-    }
 }
 
 /* Form sections */
@@ -627,4 +623,408 @@ a:hover {
 
 .site-footer p {
     margin-bottom: 0.25rem;
+}
+
+
+/* --- Mobile usability --- */
+.scroll-hint,
+.field-label-time {
+    display: none;
+}
+
+.form-error {
+    max-width: 1100px;
+    margin: 0 auto 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background: rgba(180, 60, 60, 0.15);
+    border: 1px solid rgba(220, 100, 100, 0.4);
+    color: #f0a8a8;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.form-error:not([hidden]) {
+    display: block;
+}
+
+.form-error[hidden] {
+    display: none;
+}
+
+.nav-back-short {
+    display: none;
+}
+
+/* Sticky mobile CTA (hidden on desktop) */
+.mobile-cta,
+.mobile-summary-sheet {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        padding-bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .site-header {
+        padding: 0.75rem 1rem;
+        padding-top: calc(0.75rem + env(safe-area-inset-top, 0px));
+        gap: 0.75rem;
+    }
+
+    .brand-name {
+        font-size: 1.15rem;
+    }
+
+    .brand-tagline {
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+    }
+
+    .nav-back {
+        flex-shrink: 0;
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 0.85rem;
+    }
+
+    .nav-back-short {
+        display: inline;
+        font-size: 1.25rem;
+        line-height: 1;
+    }
+
+    .nav-back-text {
+        display: none;
+    }
+
+    .hero {
+        padding: 1.5rem 1rem 1rem;
+        text-align: left;
+    }
+
+    .hero h1 {
+        font-size: 1.65rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+        font-size: 0.95rem;
+    }
+
+    .booking-layout {
+        padding: 0 1rem 1.5rem;
+        gap: 1.25rem;
+    }
+
+    .booking-form {
+        gap: 1.25rem;
+    }
+
+    .form-section {
+        padding: 1.125rem;
+    }
+
+    .form-section h2 {
+        font-size: 1.05rem;
+    }
+
+    .form-error {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+
+    .scroll-hint {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-bottom: 0.5rem;
+    }
+
+    .field-label-time {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    /* 2-column grids, larger touch targets */
+    .service-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.625rem;
+    }
+
+    .service-card label {
+        min-height: 7rem;
+        padding: 1rem 0.5rem;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .barber-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .barber-card label {
+        min-height: 8.5rem;
+        padding: 0.875rem 0.5rem;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .barber-name {
+        text-align: center;
+    }
+
+  .date-row {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 0.5rem;
+        margin-left: -0.25rem;
+        margin-right: -0.25rem;
+        padding: 0.25rem 0.25rem 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .date-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    .date-chip {
+        flex: 0 0 auto;
+        min-width: 4.75rem;
+        scroll-snap-align: start;
+    }
+
+    .date-chip label {
+        min-height: 4.75rem;
+        min-width: 4.75rem;
+        padding: 0.625rem 0.75rem;
+    }
+
+    .time-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+
+    .time-slot label {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        padding: 0.75rem 0.25rem;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .field-group input,
+    .field-group textarea {
+        font-size: 16px;
+        min-height: 48px;
+        padding: 0.875rem 1rem;
+    }
+
+    .field-group textarea {
+        min-height: 100px;
+    }
+
+    .field-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    /* Hide desktop sidebar; use bottom bar + sheet */
+    .summary-panel {
+        display: none;
+    }
+
+    .site-footer {
+        padding: 1.5rem 1rem 2rem;
+        font-size: 0.75rem;
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .modal-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .modal {
+        max-width: none;
+        border-radius: var(--radius) var(--radius) 0 0;
+        padding: 1.5rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+        transform: translateY(100%);
+    }
+
+    .modal-overlay.is-open .modal {
+        transform: translateY(0);
+    }
+
+    .btn-close,
+    .btn-submit {
+        min-height: 48px;
+    }
+
+    /* Fixed bottom CTA */
+    .mobile-cta {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: stretch;
+        gap: 0.625rem;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 150;
+        padding: 0.625rem 1rem;
+        padding-bottom: calc(0.625rem + env(safe-area-inset-bottom, 0px));
+        background: rgba(15, 14, 12, 0.96);
+        border-top: 1px solid var(--border);
+        backdrop-filter: blur(16px);
+        box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    .mobile-cta-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 0.15rem;
+        min-height: 48px;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--surface-elevated);
+        color: var(--text);
+        font-family: inherit;
+        text-align: left;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        overflow: hidden;
+        min-width: 0;
+    }
+
+    .mobile-cta-line {
+        font-size: 0.8rem;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    .mobile-cta-meta {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    .mobile-cta-total {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--accent);
+        margin-top: 0.1rem;
+    }
+
+    .btn-submit-mobile {
+        width: auto;
+        min-width: 7.5rem;
+        margin-top: 0;
+        padding: 0 1.25rem;
+        white-space: nowrap;
+    }
+
+    /* Bottom sheet resumo */
+    .mobile-summary-sheet {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 160;
+        pointer-events: none;
+        visibility: hidden;
+    }
+
+    .mobile-summary-sheet.is-open {
+        pointer-events: auto;
+        visibility: visible;
+    }
+
+    .mobile-summary-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        opacity: 0;
+        transition: opacity 0.25s;
+    }
+
+    .mobile-summary-sheet.is-open .mobile-summary-backdrop {
+        opacity: 1;
+    }
+
+    .mobile-summary-panel {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-height: 85vh;
+        overflow-y: auto;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px 16px 0 0;
+        padding: 0.75rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom, 0px));
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .mobile-summary-sheet.is-open .mobile-summary-panel {
+        transform: translateY(0);
+    }
+
+    .mobile-summary-handle {
+        width: 40px;
+        height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        margin: 0 auto 1rem;
+    }
+
+    .mobile-summary-panel h3 {
+        font-family: var(--font-display);
+        margin-bottom: 1rem;
+    }
+
+    .mobile-summary-panel .btn-close {
+        width: 100%;
+        margin-top: 1rem;
+        min-height: 48px;
+    }
+}
+
+@media (max-width: 380px) {
+    .btn-submit-mobile {
+        min-width: 6.5rem;
+        font-size: 0.9rem;
+        padding: 0 0.875rem;
+    }
+
+    .mobile-cta-line {
+        font-size: 0.75rem;
+    }
 }

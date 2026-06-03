@@ -18,8 +18,58 @@
     const modal = document.getElementById('success-modal');
     const modalDetails = document.getElementById('modal-details');
     const modalClose = document.getElementById('modal-close');
+    const formError = document.getElementById('form-error');
+    const mobileCtaLine = document.getElementById('mobile-cta-line');
+    const mobileCtaMeta = document.getElementById('mobile-cta-meta');
+    const mobileCtaTotal = document.getElementById('mobile-cta-total');
+    const mobileSummarySheet = document.getElementById('mobile-summary-sheet');
+    const mobileSummaryToggle = document.getElementById('mobile-summary-toggle');
+    const mobileSummaryClose = document.getElementById('mobile-summary-close');
+    const mobileSummaryBackdrop = document.getElementById('mobile-summary-backdrop');
 
     let selectedDate = null;
+
+    function isMobileLayout() {
+        return window.matchMedia('(max-width: 768px)').matches;
+    }
+
+    function showFormError(message) {
+        if (!formError) {
+            alert(message);
+            return;
+        }
+        formError.textContent = message;
+        formError.hidden = false;
+        formError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function clearFormError() {
+        if (formError) formError.hidden = true;
+    }
+
+    function openMobileSummary() {
+        if (!mobileSummarySheet) return;
+        mobileSummarySheet.classList.add('is-open');
+        mobileSummarySheet.setAttribute('aria-hidden', 'false');
+        if (mobileSummaryToggle) mobileSummaryToggle.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileSummary() {
+        if (!mobileSummarySheet) return;
+        mobileSummarySheet.classList.remove('is-open');
+        mobileSummarySheet.setAttribute('aria-hidden', 'true');
+        if (mobileSummaryToggle) mobileSummaryToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    }
+
+    function scrollDateChipIntoView(input) {
+        if (!input || !isMobileLayout()) return;
+        const chip = input.closest('.date-chip');
+        if (chip) {
+            chip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+    }
 
     function formatCurrency(value) {
         return 'R$ ' + value.toFixed(0).replace('.', ',');
@@ -90,6 +140,7 @@
             first.checked = true;
             selectedDate = first.value;
             renderTimeSlots();
+            scrollDateChipIntoView(first);
         }
     }
 
@@ -134,29 +185,54 @@
         updateSummary();
     }
 
+    function setText(id, text) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+    }
+
     function updateSummary() {
         const service = getSelectedService();
         const barber = getSelectedBarber();
         const dateInput = getSelectedDateInput();
         const timeInput = getSelectedTimeInput();
 
-        if (service) {
-            document.getElementById('summary-service').textContent =
-                SERVICE_LABELS[service.value] || service.value;
-            document.getElementById('summary-duration').textContent = service.dataset.duration + ' min';
-            document.getElementById('summary-total').textContent = formatCurrency(
-                parseFloat(service.dataset.price, 10)
-            );
-        }
-
-        if (barber) {
-            document.getElementById('summary-barber').textContent = barber.value;
-        }
-
-        document.getElementById('summary-date').textContent = dateInput
-            ? dateInput.dataset.label
+        const serviceLabel = service
+            ? SERVICE_LABELS[service.value] || service.value
             : '—';
-        document.getElementById('summary-time').textContent = timeInput ? timeInput.value : '—';
+        const barberLabel = barber ? barber.value : '—';
+        const dateLabel = dateInput ? dateInput.dataset.label : '—';
+        const timeLabel = timeInput ? timeInput.value : '—';
+        const durationLabel = service ? service.dataset.duration + ' min' : '—';
+        const totalLabel = service
+            ? formatCurrency(parseFloat(service.dataset.price, 10))
+            : '—';
+
+        setText('summary-service', serviceLabel);
+        setText('summary-duration', durationLabel);
+        setText('summary-total', totalLabel);
+        setText('summary-barber', barberLabel);
+        setText('summary-date', dateLabel);
+        setText('summary-time', timeLabel);
+
+        setText('mobile-summary-service', serviceLabel);
+        setText('mobile-summary-barber', barberLabel);
+        setText('mobile-summary-date', dateLabel);
+        setText('mobile-summary-time', timeLabel);
+        setText('mobile-summary-duration', durationLabel);
+        setText('mobile-summary-total', totalLabel);
+
+        if (mobileCtaLine) {
+            mobileCtaLine.textContent = serviceLabel + ' · ' + barberLabel;
+        }
+        if (mobileCtaMeta) {
+            mobileCtaMeta.textContent =
+                dateLabel !== '—' && timeLabel !== '—'
+                    ? dateLabel + ' às ' + timeLabel
+                    : 'Escolha data e horário';
+        }
+        if (mobileCtaTotal) {
+            mobileCtaTotal.textContent = totalLabel;
+        }
     }
 
     function openModal(data) {
@@ -191,6 +267,8 @@
         if (e.target.name === 'date') {
             selectedDate = e.target.value;
             renderTimeSlots();
+            scrollDateChipIntoView(e.target);
+            clearFormError();
         }
     });
 
@@ -199,7 +277,12 @@
     form.addEventListener('change', function (e) {
         if (e.target.name === 'service' || e.target.name === 'barber' || e.target.name === 'time') {
             updateSummary();
+            clearFormError();
         }
+    });
+
+    form.addEventListener('input', function () {
+        clearFormError();
     });
 
     form.addEventListener('submit', function (e) {
@@ -212,15 +295,21 @@
         const dateInput = getSelectedDateInput();
         const timeInput = getSelectedTimeInput();
 
+        clearFormError();
+
         if (!name || !phone) {
-            alert('Preencha nome e telefone para continuar.');
+            showFormError('Preencha nome e telefone para continuar.');
+            document.getElementById(!name ? 'client-name' : 'client-phone').focus();
             return;
         }
 
         if (!dateInput || !timeInput) {
-            alert('Selecione data e horário.');
+            showFormError('Selecione data e horário antes de confirmar.');
+            document.getElementById('date-options').scrollIntoView({ behavior: 'smooth', block: 'start' });
             return;
         }
+
+        closeMobileSummary();
 
         openModal({
             service: SERVICE_LABELS[service.value],
@@ -243,6 +332,18 @@
         }
         updateSummary();
     });
+
+    if (mobileSummaryToggle) {
+        mobileSummaryToggle.addEventListener('click', function () {
+            if (mobileSummarySheet.classList.contains('is-open')) {
+                closeMobileSummary();
+            } else {
+                openMobileSummary();
+            }
+        });
+    }
+    if (mobileSummaryClose) mobileSummaryClose.addEventListener('click', closeMobileSummary);
+    if (mobileSummaryBackdrop) mobileSummaryBackdrop.addEventListener('click', closeMobileSummary);
 
     modalClose.addEventListener('click', closeModal);
     modal.addEventListener('click', function (e) {

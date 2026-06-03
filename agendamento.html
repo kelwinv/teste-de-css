@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0e0c">
     <title>Agendar horário — Barbearia Clássica</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +16,7 @@
             <span class="brand-name">Barbearia Clássica</span>
             <span class="brand-tagline">Desde 1987</span>
         </div>
-        <a class="nav-back" href="index.html">← Voltar ao início</a>
+        <a class="nav-back" href="index.html"><span class="nav-back-short" aria-hidden="true">←</span><span class="nav-back-text">Voltar</span></a>
     </header>
 
     <section class="hero">
@@ -107,10 +108,13 @@
 
             <section class="form-section">
                 <h2><span class="step-num">3</span> Data e horário</h2>
+                <p class="scroll-hint" id="date-scroll-hint">Deslize para ver mais datas</p>
                 <div class="date-row" id="date-options" role="radiogroup" aria-label="Selecione a data"></div>
+                <p class="field-label-time">Horário</p>
                 <div class="time-grid" id="time-slots" role="radiogroup" aria-label="Selecione o horário"></div>
             </section>
 
+            <div class="form-error" id="form-error" role="alert" hidden></div>
             <section class="form-section">
                 <h2><span class="step-num">4</span> Seus dados</h2>
                 <div class="field-row">
@@ -130,7 +134,7 @@
             </section>
         </form>
 
-        <aside class="summary-panel">
+        <aside class="summary-panel" aria-label="Resumo do agendamento">
             <div class="summary-card">
                 <h3>Resumo do agendamento</h3>
                 <div class="summary-item">
@@ -181,5 +185,31 @@
     </div>
 
     <script src="agendamento.js"></script>
+    <div class="mobile-cta" id="mobile-cta">
+        <button type="button" class="mobile-cta-toggle" id="mobile-summary-toggle" aria-expanded="false" aria-controls="mobile-summary-sheet">
+            <span class="mobile-cta-line" id="mobile-cta-line">Corte · João Silva</span>
+            <span class="mobile-cta-meta" id="mobile-cta-meta">Escolha data e horário</span>
+            <span class="mobile-cta-total" id="mobile-cta-total">R$ 45</span>
+        </button>
+        <button type="submit" form="booking-form" class="btn-submit btn-submit-mobile" id="btn-submit-mobile">
+            Confirmar
+        </button>
+    </div>
+
+    <div class="mobile-summary-sheet" id="mobile-summary-sheet" aria-hidden="true">
+        <div class="mobile-summary-backdrop" id="mobile-summary-backdrop"></div>
+        <div class="mobile-summary-panel" role="dialog" aria-label="Resumo do agendamento">
+            <div class="mobile-summary-handle" aria-hidden="true"></div>
+            <h3>Resumo</h3>
+            <div class="summary-item"><span class="label">Serviço</span><span class="value" id="mobile-summary-service">Corte</span></div>
+            <div class="summary-item"><span class="label">Profissional</span><span class="value" id="mobile-summary-barber">João Silva</span></div>
+            <div class="summary-item"><span class="label">Data</span><span class="value" id="mobile-summary-date">—</span></div>
+            <div class="summary-item"><span class="label">Horário</span><span class="value" id="mobile-summary-time">—</span></div>
+            <div class="summary-item"><span class="label">Duração</span><span class="value" id="mobile-summary-duration">30 min</span></div>
+            <div class="summary-total"><span>Total</span><span class="amount" id="mobile-summary-total">R$ 45</span></div>
+            <button type="button" class="btn-close" id="mobile-summary-close">Continuar</button>
+        </div>
+    </div>
+
 </body>
 </html>
