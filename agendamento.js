@@ -52,7 +52,7 @@
             const isSunday = d.getDay() === 0;
             if (isSunday) continue;
 
-            const iso = d.toISOString().slice(0, 10);
+            const iso = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
             const id = 'date-' + iso;
             const chip = document.createElement('div');
             chip.className = 'date-chip';
